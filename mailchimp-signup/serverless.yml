@@ -1,0 +1,34 @@
+#
+# This function takes in an email address and subscribes it to a mailchimp list. The request is made using the PUT method which will not throw a 400 error if the email already exists.
+#
+# Request requirements
+# - email_address
+#
+# Response
+# - Success -> 200
+# - Fail -> 400
+
+service: mailchimp-signup
+
+# plugins:
+#   - serverless-offline
+
+provider:
+  name: aws
+  runtime: nodejs12.x
+  stage: dev
+  region: us-west-2
+  environment:
+    DOMAIN: ''
+    API_KEY: ''
+    LIST_ID: ''
+    
+
+functions:
+  subscribe:
+    handler: handler.subscribe
+    events:
+      - http:
+          path: subscribe
+          method: post
+          cors: true
