@@ -1,0 +1,36 @@
+# 
+# This function has two endpoints.
+# 1. Subscribe
+#   - Will make a post request to Mailchimp, if the email address is not already in your list it will add it. If the email is already in the list it will respond with a 400 error
+#   - Request input: email (required), phone (required but can be removed), name (required but can be removed)
+# 2. Tag
+#   - Will make a post request to mailchimp adding all tags provided to the email address provided. 
+#   - Request input: email (required), tags (required, array)
+
+service: mailchimp-lp-signup
+
+provider:
+  name: aws
+  runtime: nodejs12.x
+  stage: dev
+  region: us-west-2
+  environment:
+    DOMAIN: ''
+    API_KEY: ''
+    LIST_ID: ''    
+
+functions:
+  subscribe:
+    handler: src/subscribe.handler
+    events:
+      - http:
+          path: subscribe
+          method: post
+          cors: true
+  tag:
+    handler: src/tag.handler
+    events:
+      - http:
+          path: tag
+          method: post
+          cors: true
